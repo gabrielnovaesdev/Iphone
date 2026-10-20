@@ -70,6 +70,10 @@ Depois, abra **http://localhost:5173**. O servidor também aceita outra porta: `
 > [!NOTE]
 > A fonte, o GSAP e o Lenis vêm de CDNs, então a página precisa de internet para aparecer completa. Sem conexão, o conteúdo continua legível, só sem as animações de entrada.
 
+### Publicar na Vercel
+
+O `vercel.json` já aponta a pasta `src/` como saída, então basta importar o repositório na Vercel, sem mudar nenhuma configuração. Se o projeto já existia antes desse arquivo, confira em **Settings › Build and Deployment** que nenhum valor manual está sobrescrevendo o *Output Directory*.
+
 <details>
 <summary><b>Gerar os vídeos WebM de novo</b></summary>
 

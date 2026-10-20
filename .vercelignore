@@ -1,0 +1,4 @@
+# Só o conteúdo de src/ vai para o ar; o servidor local não é necessário na Vercel.
+src/server.mjs
+scripts/
+.github/
