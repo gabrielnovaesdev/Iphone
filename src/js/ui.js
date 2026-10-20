@@ -6,7 +6,7 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
 
 function setupMedia(fig) {
   const key = fig.dataset.video;
-  const [dir, ratio, mobileVariant, mobileRatio] = VIDEOS[key];
+  const [dir, ratio, mobileVariant, mobileRatio, { hd = false } = {}] = VIDEOS[key];
   const small = mobile.matches;
   fig.style.setProperty('--ratio', small ? mobileRatio : ratio);
 
@@ -17,7 +17,7 @@ function setupMedia(fig) {
   video.preload = 'none';
   video.setAttribute('aria-hidden', 'true');
   // WebM local (menor) primeiro; o MP4 original da Apple fica como reserva.
-  video.innerHTML = `<source data-src="assets/video/${key}-${small ? 'sm' : 'lg'}.webm" type="video/webm"><source data-src="${dir}/${small ? mobileVariant : 'large'}.mp4" type="video/mp4">`;
+  video.innerHTML = `<source data-src="assets/video/${key}-${small ? 'sm' : 'lg'}.webm" type="video/webm"><source data-src="${dir}/${small ? mobileVariant : 'large'}${hd ? '_2x' : ''}.mp4" type="video/mp4">`;
   fig.append(video);
 }
 

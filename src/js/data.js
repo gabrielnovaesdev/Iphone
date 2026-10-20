@@ -7,10 +7,11 @@ const AIR_B = `${BASE}/iphone-air/2025/731189b1-a606-493f-afa4-7c766a8fd08d/anim
 const B17_A = `${BASE}/iphone-17/2025/b2c72de3-1cbc-4e24-b4d3-23c7abcec4ec/anim`;
 const B17_B = `${BASE}/iphone-17/2025/9ac1f4bb-bf7d-463a-98e2-33e9208682f0/anim`;
 
-// [pasta, proporção desktop, variante mobile, proporção mobile]
+// [pasta, proporção desktop, variante mobile, proporção mobile, opções]
+// hd: usa a versão _2x da Apple (dobro da resolução) e uma compressão mais leve.
 export const VIDEOS = {
   lineupHero: [`${B17_A}/hero`, '1440/1440', 'medium', '430/616'],
-  proCamera: [`${PRO}/camera-hero`, '930/600', 'small', '510/422'],
+  proCamera: [`${PRO}/camera-hero`, '930/600', 'small', '510/422', { hd: true }],
   proColors: [`${PRO}/highlights-design`, '1260/680', 'small', '400/480'],
   proZoom: [`${PRO}/highlights-zoom`, '1260/680', 'small', '400/480'],
   proDesign: [`${PRO}/design`, '1048/500', 'small', '284/570'],

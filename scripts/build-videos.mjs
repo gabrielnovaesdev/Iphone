@@ -1,5 +1,5 @@
 // Baixa as animações listadas em src/js/data.js e gera versões WebM (VP9) em src/assets/video.
-// Uso: FFMPEG=/caminho/ffmpeg node scripts/build-videos.mjs [--force]
+// Uso: FFMPEG=/caminho/ffmpeg node scripts/build-videos.mjs [--force] [chave ...]
 import { spawn } from 'node:child_process';
 import { existsSync, mkdirSync, statSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -11,6 +11,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = join(ROOT, 'src', 'assets', 'video');
 const FFMPEG = process.env.FFMPEG || 'ffmpeg';
 const force = process.argv.includes('--force');
+const only = process.argv.slice(2).filter((a) => !a.startsWith('--'));
 
 function run(args) {
   return new Promise((resolve, reject) => {
@@ -43,14 +44,16 @@ mkdirSync(OUT, { recursive: true });
 let before = 0;
 let after = 0;
 
-for (const [key, [dir, , mobileVariant]] of Object.entries(VIDEOS)) {
-  for (const [suffix, variant] of [['lg', 'large'], ['sm', mobileVariant]]) {
+for (const [key, [dir, , mobileVariant, , { hd = false } = {}]] of Object.entries(VIDEOS)) {
+  if (only.length && !only.includes(key)) continue;
+  const x2 = hd ? '_2x' : '';
+  for (const [suffix, variant] of [['lg', `large${x2}`], ['sm', `${mobileVariant}${x2}`]]) {
     const out = join(OUT, `${key}-${suffix}.webm`);
     if (existsSync(out) && !force) { console.log(`= ${key}-${suffix} (já existe)`); continue; }
     const src = join(tmpdir(), `orbita-${key}-${suffix}.mp4`);
     await download(`${dir}/${variant}.mp4`, src);
     // VP9 em qualidade constante, sem áudio; row-mt acelera em máquinas com vários núcleos.
-    await run(['-y', '-i', src, '-an', '-c:v', 'libvpx-vp9', '-crf', '36', '-b:v', '0',
+    await run(['-y', '-i', src, '-an', '-c:v', 'libvpx-vp9', '-crf', hd ? '28' : '36', '-b:v', '0',
       '-row-mt', '1', '-deadline', 'good', '-cpu-used', '2', '-pix_fmt', 'yuv420p', out]);
     before += kb(src);
     after += kb(out);
