@@ -17,6 +17,8 @@
   Site vitrine estático, limpo e responsivo, feito como projeto de estudo.
 </p>
 
+<a href="https://orbita-eta-three.vercel.app/"><img src="https://img.shields.io/badge/Ver_ao_vivo-orbita--eta--three.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Ver ao vivo"></a>
+
 </div>
 
 ---
